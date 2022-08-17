@@ -5,7 +5,8 @@ public class Error {
     private int status;
     private String messag;
 
-    public Error() {}
+    public Error() {
+    }
 
     public Error(boolean active, int status, String messag) {
         this.active = active;
