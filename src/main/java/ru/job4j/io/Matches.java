@@ -11,14 +11,14 @@ public class Matches {
         while (count > 0) {
             String player = turn ? "Первый игрок" : "Второй игрок";
             System.out.println(player + " введите число от 1 до 3:");
-            String input = scanner.nextLine();
-            while ((!input.equals("1") && !input.equals("2") && !input.equals("3")) || Integer.parseInt(input) > count) {
+            int matches = Integer.parseInt(scanner.nextLine());
+            if (matches >= 1 && matches <= Math.min(3, count)) {
+                count -= matches;
+                System.out.println("Спичек на столе: " + count);
+                turn = !turn;
+            } else {
                 System.out.println("Введено некорректное число!");
-                input = scanner.nextLine();
             }
-            count -= Integer.parseInt(input);
-            System.out.println("Спичек на столе: " + count);
-            turn = !turn;
         }
         if (!turn) {
             System.out.println("Выиграл первый игрок");
