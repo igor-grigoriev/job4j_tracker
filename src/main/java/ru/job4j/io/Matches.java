@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Matches {
@@ -11,12 +12,16 @@ public class Matches {
         while (count > 0) {
             String player = turn ? "Первый игрок" : "Второй игрок";
             System.out.println(player + " введите число от 1 до 3:");
-            int matches = Integer.parseInt(scanner.nextLine());
-            if (matches >= 1 && matches <= Math.min(3, count)) {
-                count -= matches;
-                System.out.println("Спичек на столе: " + count);
-                turn = !turn;
-            } else {
+            try {
+                int matches = Integer.parseInt(scanner.nextLine());
+                if (matches >= 1 && matches <= Math.min(3, count)) {
+                    count -= matches;
+                    System.out.println("Спичек на столе: " + count);
+                    turn = !turn;
+                } else {
+                    System.out.println("Введено некорректное число!");
+                }
+            } catch (NumberFormatException e) {
                 System.out.println("Введено некорректное число!");
             }
         }
