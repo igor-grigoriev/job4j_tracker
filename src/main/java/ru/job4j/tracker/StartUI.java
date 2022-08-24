@@ -10,7 +10,7 @@ public class StartUI {
     public void init(Input input, Tracker tracker, UserAction[] actions) {
         boolean run = true;
         while (run) {
-            showMenu();
+            showMenu(actions);
             int select = input.askInt("Select: ");
             if (select < 0 || select >= actions.length) {
                 out.println("Wrong input, you can select: 0 .. " + (actions.length - 1));
@@ -21,15 +21,10 @@ public class StartUI {
         }
     }
 
-    private void showMenu() {
-        String[] menu = {
-                "Add new Item", "Show all items", "Edit item",
-                "Delete item", "Find item by id", "Find items by name",
-                "Exit Program"
-        };
+    private void showMenu(UserAction[] actions) {
         out.println("Menu:");
-        for (int i = 0; i < menu.length; i++) {
-            out.println(i + ". " + menu[i]);
+        for (int i = 0; i < actions.length; i++) {
+            out.println(i + ". " + actions[i].name());
         }
     }
 
@@ -38,7 +33,7 @@ public class StartUI {
         Input input = new ValidateInput(output, new ConsoleInput());
         Tracker tracker = new Tracker();
         UserAction[] actions = {new CreateAction(output), new ShowAction(output), new EditAction(output),
-            new DeleteAction(output), new FindByIdAction(output), new FindByNameAction(output), new ExitAction()};
+            new DeleteAction(output), new FindByIdAction(output), new FindByNameAction(output), new ExitAction(output)};
         new StartUI(output).init(input, tracker, actions);
     }
 }
