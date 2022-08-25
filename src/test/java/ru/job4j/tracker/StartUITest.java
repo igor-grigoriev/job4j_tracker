@@ -71,7 +71,7 @@ public class StartUITest {
         Item item2 = new Item("test2");
         tracker.add(item1);
         tracker.add(item2);
-        Input in = new StubInput(new String[] {"0", "2", "1"});
+        Input in = new StubInput(new String[] {"0", String.valueOf(item2.getId()), "1"});
         UserAction[] actions = new UserAction[]{new FindByIdAction(out), new ExitAction(out)};
         new StartUI(out).init(in, tracker, actions);
         String ln = System.lineSeparator();
@@ -89,7 +89,7 @@ public class StartUITest {
     }
 
     @Test
-    public void whenFindByNameActionTestOutputIsSuccessfully() {
+    public void whenFindByNameActionThenNotFoundTestOutput() {
         Output out = new StubOutput();
         Tracker tracker = new Tracker();
         tracker.add(new Item("test1"));
@@ -104,6 +104,31 @@ public class StartUITest {
                         + "1. Exit Program" + ln
                         + "=== Find items by name ===" + ln
                         + "Заявки с именем: test не найдены." + ln
+                        + "Menu:" + ln
+                        + "0. Find items by name" + ln
+                        + "1. Exit Program" + ln
+                        + "=== Exit Program ===" + ln
+        );
+    }
+
+    @Test
+    public void whenFindByNameActionTestOutputIsSuccessfully() {
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item item1 = new Item("test1");
+        Item item2 = new Item("test2");
+        tracker.add(item1);
+        tracker.add(item2);
+        Input in = new StubInput(new String[] {"0", item1.getName(), "1"});
+        UserAction[] actions = new UserAction[]{new FindByNameAction(out), new ExitAction(out)};
+        new StartUI(out).init(in, tracker, actions);
+        String ln = System.lineSeparator();
+        assertThat(out.toString()).isEqualTo(
+                "Menu:" + ln
+                        + "0. Find items by name" + ln
+                        + "1. Exit Program" + ln
+                        + "=== Find items by name ===" + ln
+                        + item1 + ln
                         + "Menu:" + ln
                         + "0. Find items by name" + ln
                         + "1. Exit Program" + ln
