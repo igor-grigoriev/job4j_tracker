@@ -22,26 +22,29 @@ public class PasswordValidator {
             if (!Character.isUpperCase(ch) && !Character.isLowerCase(ch) && !Character.isDigit(ch)) {
                 isSpecial = true;
             }
+            if (isUpperCase && isLowerCase && isDigit && isSpecial) {
+                break;
+            }
         }
         if (password.length() < 8 || password.length() > 32) {
-            return "Длина пароля не в диапазоне [8, 32]";
+            throw new IllegalArgumentException("Длина пароля не в диапазоне [8, 32]");
         }
         if (!isUpperCase) {
-            return "Пароль не содержит символа в верхнем регистре";
+            throw new IllegalArgumentException("Пароль не содержит символа в верхнем регистре");
         }
         if (!isLowerCase) {
-            return "Пароль не содержит символа в нижнем регистре";
+            throw new IllegalArgumentException("Пароль не содержит символа в нижнем регистре");
         }
         if (!isDigit) {
-            return "Пароль не содержит цифры";
+            throw new IllegalArgumentException("Пароль не содержит цифры");
         }
         if (!isSpecial) {
-            return "Пароль не содержит спец. символа";
+            throw new IllegalArgumentException("Пароль не содержит спец. символа");
         }
         if (password.toLowerCase().contains("user") || password.contains("12345") || password.toLowerCase().contains("admin")
                 || password.toLowerCase().contains("password") || password.toLowerCase().contains("qwerty")) {
-            return "Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user";
+            throw new IllegalArgumentException("Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user");
         }
-        return password;
+        return "Пароль валидный";
     }
 }

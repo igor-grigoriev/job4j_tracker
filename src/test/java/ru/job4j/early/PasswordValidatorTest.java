@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PasswordValidatorTest {
     @Test
-    public void whenException() {
+    public void whenNullException() {
         String password = null;
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             PasswordValidator.validate(password); });
@@ -16,47 +16,55 @@ class PasswordValidatorTest {
     @Test
     public void whenLengthOutOfRange() {
         String password = "a";
-        String expected = "Длина пароля не в диапазоне [8, 32]";
-        String result = PasswordValidator.validate(password);
-        assertThat(result).isEqualTo(expected);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Длина пароля не в диапазоне [8, 32]");
     }
 
     @Test
     public void whenNotContainsUpperCase() {
         String password = "abcdefgh";
-        String expected = "Пароль не содержит символа в верхнем регистре";
-        String result = PasswordValidator.validate(password);
-        assertThat(result).isEqualTo(expected);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит символа в верхнем регистре");
     }
 
     @Test
     public void whenNotContainsLowerCase() {
         String password = "A1234567";
-        String expected = "Пароль не содержит символа в нижнем регистре";
-        String result = PasswordValidator.validate(password);
-        assertThat(result).isEqualTo(expected);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит символа в нижнем регистре");
     }
 
     @Test
     public void whenNotContainsNumbers() {
         String password = "aBcdefgh";
-        String expected = "Пароль не содержит цифры";
-        String result = PasswordValidator.validate(password);
-        assertThat(result).isEqualTo(expected);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит цифры");
     }
 
     @Test
     public void whenNotContainsSpecial() {
         String password = "aBcdefg1";
-        String expected = "Пароль не содержит спец. символа";
-        String result = PasswordValidator.validate(password);
-        assertThat(result).isEqualTo(expected);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит спец. символа");
     }
 
     @Test
     public void whenContainsInvalidSubstring() {
         String password = "qWerty1.";
-        String expected = "Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PasswordValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user");
+    }
+
+    @Test
+    public void whenPasswordIsValid() {
+        String password = "qWerta1.";
+        String expected = "Пароль валидный";
         String result = PasswordValidator.validate(password);
         assertThat(result).isEqualTo(expected);
     }
