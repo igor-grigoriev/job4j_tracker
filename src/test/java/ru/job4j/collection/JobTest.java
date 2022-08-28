@@ -7,8 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JobTest {
     @Test
     public void whenCompatorAscByName() {
-        Comparator<Job> cmpNamePriority = new JobAscByName();
-        int rsl = cmpNamePriority.compare(
+        Comparator<Job> cmpAscByName = new JobAscByName();
+        int rsl = cmpAscByName.compare(
                 new Job("job1", 2),
                 new Job("job2", 1)
         );
@@ -17,8 +17,8 @@ public class JobTest {
 
     @Test
     public void whenCompatorDescByName() {
-        Comparator<Job> cmpNamePriority = new JobDescByName();
-        int rsl = cmpNamePriority.compare(
+        Comparator<Job> cmpDescByName = new JobDescByName();
+        int rsl = cmpDescByName.compare(
                 new Job("job2", 1),
                 new Job("job1", 2)
         );
@@ -27,8 +27,8 @@ public class JobTest {
 
     @Test
     public void whenCompatorAscByPrority() {
-        Comparator<Job> cmpNamePriority = new JobAscByPriority();
-        int rsl = cmpNamePriority.compare(
+        Comparator<Job> cmpAscByPriority = new JobAscByPriority();
+        int rsl = cmpAscByPriority.compare(
                 new Job("job2", 1),
                 new Job("job1", 2)
         );
@@ -37,8 +37,8 @@ public class JobTest {
 
     @Test
     public void whenCompatorDescByPrority() {
-        Comparator<Job> cmpNamePriority = new JobDescByPriority();
-        int rsl = cmpNamePriority.compare(
+        Comparator<Job> cmpDescByPriority = new JobDescByPriority();
+        int rsl = cmpDescByPriority.compare(
                 new Job("job1", 2),
                 new Job("job2", 1)
         );
