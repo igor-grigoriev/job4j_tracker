@@ -9,10 +9,7 @@ public class StartUITest {
     public void whenCreateItem() {
         Input in = new StubInput(List.of("0", "Item name", "1"));
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         List<UserAction> actions = List.of(new CreateAction(out), new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         assertThat(tracker.findAll().get(0).getName()).isEqualTo("Item name");
@@ -21,10 +18,7 @@ public class StartUITest {
     @Test
     public void whenEditItem() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("Replaced item"));
         String replacedName = "New item name";
         Input in = new StubInput(List.of("0", String.valueOf(item.getId()), "New item name", "1"));
@@ -36,10 +30,7 @@ public class StartUITest {
     @Test
     public void whenDeleteItem() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item = tracker.add(new Item("Deleted item"));
         Input in = new StubInput(List.of("0", String.valueOf(item.getId()), "1"));
         List<UserAction> actions = List.of(new DeleteAction(out), new ExitAction(out));
@@ -50,10 +41,7 @@ public class StartUITest {
     @Test
     public void whenShowActionTestOutputIsSuccessfully() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item1 = new Item("test1");
         Item item2 = new Item("test2");
         tracker.add(item1);
@@ -79,10 +67,7 @@ public class StartUITest {
     @Test
     public void whenFindByIdActionTestOutputIsSuccessfully() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item1 = new Item("test1");
         Item item2 = new Item("test2");
         tracker.add(item1);
@@ -107,10 +92,7 @@ public class StartUITest {
     @Test
     public void whenFindByNameActionThenNotFoundTestOutput() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         tracker.add(new Item("test1"));
         tracker.add(new Item("test2"));
         Input in = new StubInput(List.of("0", "test", "1"));
@@ -133,10 +115,7 @@ public class StartUITest {
     @Test
     public void whenFindByNameActionTestOutputIsSuccessfully() {
         Output out = new StubOutput();
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item1 = new Item("test1");
         Item item2 = new Item("test2");
         tracker.add(item1);
@@ -162,7 +141,7 @@ public class StartUITest {
     public void whenInvalidExit() {
         Output out = new StubOutput();
         Input in = new StubInput(List.of("1", "0"));
-        Store tracker = new SqlTracker();
+        Store tracker = new MemTracker();
         List<UserAction> actions = List.of(new ExitAction(out));
         new StartUI(out).init(in, tracker, actions);
         String ln = System.lineSeparator();

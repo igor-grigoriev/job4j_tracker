@@ -6,13 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class TrackerTest {
+public class MemTrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item item = new Item();
         item.setName("test1");
         tracker.add(item);
@@ -22,10 +19,7 @@ public class TrackerTest {
 
     @Test
     public void whenTestFindById() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item bug = new Item("Bug");
         Item item = tracker.add(bug);
         Item result = tracker.findById(item.getId());
@@ -34,10 +28,7 @@ public class TrackerTest {
 
     @Test
     public void whenTestFindAll() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
@@ -48,10 +39,7 @@ public class TrackerTest {
 
     @Test
     public void whenTestFindByNameCheckArrayLength() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
@@ -65,10 +53,7 @@ public class TrackerTest {
 
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
@@ -82,10 +67,7 @@ public class TrackerTest {
 
     @Test
     public void whenReplace() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item bug = new Item();
         bug.setName("Bug");
         tracker.add(bug);
@@ -98,10 +80,7 @@ public class TrackerTest {
 
     @Test
     public void whenDelete() {
-        Store tracker = new SqlTracker();
-        for (Item it : tracker.findAll()) {
-            tracker.delete(it.getId());
-        }
+        Store tracker = new MemTracker();
         Item bug = new Item();
         bug.setName("Bug");
         tracker.add(bug);
