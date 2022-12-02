@@ -30,12 +30,13 @@ public class StartUI {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
-        Store tracker = new SqlTracker();
-        List<UserAction> actions = List.of(new CreateAction(output), new ShowAction(output), new EditAction(output),
-                new DeleteAction(output), new FindByIdAction(output), new FindByNameAction(output), new ExitAction(output));
-        new StartUI(output).init(input, tracker, actions);
+        try (Store tracker = new SqlTracker()) {
+            List<UserAction> actions = List.of(new CreateAction(output), new ShowAction(output), new EditAction(output),
+                    new DeleteAction(output), new FindByIdAction(output), new FindByNameAction(output), new ExitAction(output));
+            new StartUI(output).init(input, tracker, actions);
+        }
     }
 }
