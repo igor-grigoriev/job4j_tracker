@@ -53,17 +53,14 @@ public class SqlTrackerTest {
     @Test
     public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item item = new Item("item");
-        tracker.add(item);
+        Item item = tracker.add(new Item("item"));
         assertThat(tracker.findById(item.getId())).isEqualTo(item);
     }
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item item = new Item();
-        item.setName("test1");
-        tracker.add(item);
+        Item item = tracker.add(new Item("test1"));
         Item result = tracker.findById(item.getId());
         assertThat(result.getName(), is(item.getName()));
     }
@@ -71,44 +68,37 @@ public class SqlTrackerTest {
     @Test
     public void whenTestFindById() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item bug = new Item("Bug");
-        Item item = tracker.add(bug);
-        Item result = tracker.findById(item.getId());
-        assertThat(result.getName()).isEqualTo(item.getName());
+        Item bug = tracker.add(new Item("Bug"));
+        Item result = tracker.findById(bug.getId());
+        assertThat(result.getName()).isEqualTo(bug.getName());
     }
 
     @Test
     public void whenTestFindAll() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
+        Item first = tracker.add(new Item("First"));
+        tracker.add(new Item("Second"));
         Item result = tracker.findAll().get(0);
         assertThat(result.getName()).isEqualTo(first.getName());
     }
 
     @Test
-    public void whenTestFindByNameCheckArrayLength() {
+    public void whenTestFindByNameCheckArray() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        tracker.add(new Item("First"));
+        Item first1 = tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(first.getName());
-        assertThat(result.size()).isEqualTo(3);
+        Item first2 = tracker.add(new Item("First"));
+        tracker.add(new Item("Second"));
+        Item first3 = tracker.add(new Item("First"));
+        List<Item> result = tracker.findByName(first1.getName());
+        assertThat(result).isEqualTo(List.of(first1, first2, first3));
     }
 
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
+        tracker.add(new Item("First"));
+        Item second = tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
@@ -119,24 +109,17 @@ public class SqlTrackerTest {
     @Test
     public void whenReplace() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item bug = new Item();
-        bug.setName("Bug");
-        tracker.add(bug);
-        int id = bug.getId();
-        Item bugWithDesc = new Item();
-        bugWithDesc.setName("Bug with description");
-        tracker.replace(id, bugWithDesc);
-        assertThat(tracker.findById(id).getName()).isEqualTo("Bug with description");
+        Item bug = tracker.add(new Item("Bug"));
+        Item bugWithDesc = new Item("Bug with description");
+        tracker.replace(bug.getId(), bugWithDesc);
+        assertThat(tracker.findById(bug.getId()).getName()).isEqualTo("Bug with description");
     }
 
     @Test
     public void whenDelete() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item bug = new Item();
-        bug.setName("Bug");
-        tracker.add(bug);
-        int id = bug.getId();
-        tracker.delete(id);
-        assertThat(tracker.findById(id)).isNull();
+        Item bug = tracker.add(new Item("Bug"));
+        tracker.delete(bug.getId());
+        assertThat(tracker.findById(bug.getId())).isNull();
     }
 }
