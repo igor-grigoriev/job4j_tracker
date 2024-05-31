@@ -4,10 +4,10 @@ import ru.job4j.tracker.output.Output;
 import ru.job4j.tracker.store.Store;
 import ru.job4j.tracker.input.Input;
 
-public class Exit implements UserAction {
+public class ExitAction implements UserAction {
     private final Output out;
 
-    public Exit(Output out) {
+    public ExitAction(Output out) {
         this.out = out;
     }
 
